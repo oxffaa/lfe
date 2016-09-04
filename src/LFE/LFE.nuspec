@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>LFE</title>
+    <authors>Akulyakov Artem[akulyakov.artem@gmail.com]</authors>
+    <owners>Akulyakov Artem[akulyakov.artem@gmail.com]</owners>
+    <licenseUrl>https://raw.githubusercontent.com/0xffAA/lfe/master/doc/License_MIT_ENG.txt</licenseUrl>
+    <projectUrl>https://github.com/0xffAA/lfe</projectUrl>
+    <iconUrl>https://github.com/0xffAA/lfe/raw/master/doc/lfe_64_64.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Lockfree extensions.</description>
+    <releaseNotes>First public release.</releaseNotes>
+    <copyright>Copyright 2016 (c) Akulyakov Artem</copyright>
+    <tags>lockfree collections multithreading</tags>
+  </metadata>
+</package>
