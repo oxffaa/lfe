@@ -20,18 +20,23 @@ IN THE SOFTWARE.
 */
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 namespace System.Collections.Concurrent
 {
     public class OutputBox<T>
     {
-        private BoxItem<T> _root; 
+        private BoxItem<T> _root;
 
         public OutputBox(IEnumerable<T> source)
         {
-            _root = source.Aggregate(_root, (current, item) => new BoxItem<T>(item, current));
+            BoxItem<T> current = null;
+            foreach (var item in source)
+            {
+                current = new BoxItem<T>(item, current);
+            }
+
+            _root = current;
         }
 
         public bool HasItems

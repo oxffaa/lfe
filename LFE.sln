@@ -8,6 +8,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3B50EC9F-2B64-44CD-8A27-F67A6B0B8124}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{B4B11B4F-E003-4572-8D61-5FEECEEFAAC0}"
+	ProjectSection(SolutionItems) = preProject
+		doc\License_MIT_ENG.txt = doc\License_MIT_ENG.txt
+		doc\License_MIT_RUS.txt = doc\License_MIT_RUS.txt
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LFE", "src\LFE\LFE.csproj", "{E4F423E6-EC1D-4E2E-A796-563ABEEE6FBB}"
 EndProject
