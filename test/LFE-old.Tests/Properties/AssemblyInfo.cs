@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LFE.Benchmarks")]
+[assembly: AssemblyTitle("LFE-old.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LFE.Benchmarks")]
+[assembly: AssemblyProduct("LFE-old.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("822da382-37d1-4c11-bcc0-54fcc98a02ca")]
+[assembly: Guid("1501b60f-1338-4588-91c8-ad2ff03ee553")]
 
 // Version information for an assembly consists of the following four values:
 //

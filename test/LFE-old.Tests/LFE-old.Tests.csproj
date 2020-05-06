@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LFE.Tests</RootNamespace>
-    <AssemblyName>LFE.Tests</AssemblyName>
+    <AssemblyName>LFE-old.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -59,9 +59,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\LFE\LFE.csproj">
+    <ProjectReference Include="..\..\src\LFE-old\LFE-old.csproj">
       <Project>{e4f423e6-ec1d-4e2e-a796-563abeee6fbb}</Project>
-      <Name>LFE</Name>
+      <Name>LFE-old</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
