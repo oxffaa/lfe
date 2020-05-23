@@ -17,12 +17,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LFE", "src\LFE\LFE.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LFE.Tests", "test\LFE.Tests\LFE.Tests.csproj", "{19FDE9B1-9E25-4EDB-B9D6-0C4D8771D25F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{C34D072D-C8CC-4E05-A7E0-C486690C5B72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C34D072D-C8CC-4E05-A7E0-C486690C5B72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C34D072D-C8CC-4E05-A7E0-C486690C5B72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B42F5236-447A-4D6D-AB3A-705C4B55EA15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B42F5236-447A-4D6D-AB3A-705C4B55EA15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B42F5236-447A-4D6D-AB3A-705C4B55EA15}.Release|Any CPU.ActiveCfg = Release|Any CPU
