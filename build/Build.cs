@@ -1,6 +1,5 @@
-using System;
-using System.Linq;
 using Nuke.Common;
+using Nuke.Common.CI;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
@@ -8,11 +7,11 @@ using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
+using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
-using static Nuke.Common.EnvironmentInfo;
 using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.Tools.Git.GitTasks;
 
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
@@ -29,9 +28,15 @@ class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Solution] readonly Solution Solution;
-    [GitRepository] readonly GitRepository GitRepository;
-    [GitVersion] readonly GitVersion GitVersion;
+    [Parameter("Feed url for publishing nuget packages", Name = "nugetfeed")] 
+    readonly string NugetFeed;
+
+    [Parameter("API Key for publishing nuget packages", Name = "nugetapikey")] 
+    readonly string NugetApiKey;
+
+    [Required] [Solution] readonly Solution Solution;
+    [Required] [GitRepository] readonly GitRepository GitRepository;
+    [Required] [GitVersion] readonly GitVersion GitVersion;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath TestsDirectory => RootDirectory / "test";
@@ -63,7 +68,58 @@ class Build : NukeBuild
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
-                .EnableNoRestore());
+                .EnableNoRestore()
+                .SetNoRestore(true)
+            );
         });
 
+    Target Test => _ => _
+        .DependsOn(Compile)
+        .Produces(ArtifactsDirectory / "*.trx")
+        .Executes(() =>
+        {
+            DotNetTest(s => s
+                .SetConfiguration(Configuration)
+                .SetNoBuild(InvokedTargets.Contains(Compile))
+                .ResetVerbosity()
+                .SetResultsDirectory(ArtifactsDirectory)
+                .SetNoRestore(true)
+                .SetNoBuild(true)
+                .CombineWith(Solution.GetProjects("*.Tests"), (_, v) => _
+                    .SetProjectFile(v)
+                    .SetLogger($"trx;LogFileName={v.Name}.trx")
+                )
+            );
+        });
+
+    Target Pack => _ => _
+        .DependsOn(Test)
+        .Produces(ArtifactsDirectory / "*.nupkg")
+        .Executes(() =>
+        {
+            DotNetPack( s => s
+                .SetProject(Solution)
+                .SetNoBuild(true)
+                .SetConfiguration(Configuration)
+                .SetOutputDirectory(ArtifactsDirectory)
+                .SetVersion(GitVersion.NuGetVersionV2)
+            );
+        });
+
+    Target Publish => _ => _
+        .DependsOn(Pack)
+        .Consumes(Pack)
+        //.Requires(() => GitHasCleanWorkingCopy())
+        //.Requires(() => Configuration.Equals(Configuration.Release))
+        .Requires(() => GitRepository.Branch.EqualsOrdinalIgnoreCase("master"))
+        .Executes(() =>
+        {
+            DotNetNuGetPush(_ => _
+                .SetSource(NugetFeed)
+                .SetApiKey(NugetApiKey)
+                .CombineWith(ArtifactsDirectory.GlobFiles("*.nupkg"), (_, v) => _
+                    .SetTargetPath(v)
+                )
+            );
+        });
 }
