@@ -29,10 +29,10 @@ class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Parameter("Feed url for publishing nuget packages", Name = "nugetfeed")] 
+    [Parameter("Feed url for publishing nuget packages", Name = "feed")] 
     readonly string NugetFeed;
 
-    [Parameter("API Key for publishing nuget packages", Name = "nugetapikey")] 
+    [Parameter("API Key for publishing nuget packages", Name = "apikey")] 
     readonly string NugetApiKey;
 
     [Required] [Solution] readonly Solution Solution;
@@ -86,7 +86,6 @@ class Build : NukeBuild
                 .SetNoBuild(InvokedTargets.Contains(Compile))
                 .ResetVerbosity()
                 .SetResultsDirectory(ArtifactsDirectory)
-                .SetDataCollector("XPlat Code Coverage")
                 .EnableCollectCoverage()
                 .SetCoverletOutputFormat(CoverletOutputFormat.opencover)
                     .When(IsServerBuild, _ => _.EnableUseSourceLink())
@@ -95,7 +94,7 @@ class Build : NukeBuild
                 .CombineWith(Solution.GetProjects("*.Tests"), (_, v) => _
                     .SetProjectFile(v)
                     .SetLogger($"trx;LogFileName={v.Name}.trx")
-                    .SetCoverletOutput(ArtifactsDirectory / $"{v.Name}.xml")
+                    .SetCoverletOutput(ArtifactsDirectory / $"{v.Name}.coverage.xml")
                 )
             );
         });

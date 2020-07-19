@@ -21,7 +21,7 @@ jobs:
         dotnet-version: 3.1.101
     
     - name: Run nuke for publishing
-      run: ./build.sh Publish --nugetfeed https://www.myget.org/F/oxffaa/api/v3/index.json --nugetapikey ${{ secrets.MYGETAPIKEY }}
+      run: ./build.sh Publish --feed https://www.myget.org/F/oxffaa/api/v3/index.json --apikey ${{ secrets.MYGETAPIKEY }}
     
     - name: Upload code coverage
       uses: codecov/codecov-action@v1.0.11
