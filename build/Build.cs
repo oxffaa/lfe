@@ -5,6 +5,7 @@ using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
+using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities;
@@ -43,6 +44,7 @@ class Build : NukeBuild
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
 
     Target Clean => _ => _
+        .DependentFor(Restore)
         .Before(Restore)
         .Executes(() =>
         {
@@ -76,18 +78,24 @@ class Build : NukeBuild
     Target Test => _ => _
         .DependsOn(Compile)
         .Produces(ArtifactsDirectory / "*.trx")
+        .Produces(ArtifactsDirectory / "*.xml")
         .Executes(() =>
-        {
+        {   
             DotNetTest(s => s
                 .SetConfiguration(Configuration)
                 .SetNoBuild(InvokedTargets.Contains(Compile))
                 .ResetVerbosity()
                 .SetResultsDirectory(ArtifactsDirectory)
+                .SetDataCollector("XPlat Code Coverage")
+                .EnableCollectCoverage()
+                .SetCoverletOutputFormat(CoverletOutputFormat.opencover)
+                    .When(IsServerBuild, _ => _.EnableUseSourceLink())
                 .SetNoRestore(true)
                 .SetNoBuild(true)
                 .CombineWith(Solution.GetProjects("*.Tests"), (_, v) => _
                     .SetProjectFile(v)
                     .SetLogger($"trx;LogFileName={v.Name}.trx")
+                    .SetCoverletOutput(ArtifactsDirectory / $"{v.Name}.xml")
                 )
             );
         });
@@ -109,8 +117,10 @@ class Build : NukeBuild
     Target Publish => _ => _
         .DependsOn(Pack)
         .Consumes(Pack)
-        //.Requires(() => GitHasCleanWorkingCopy())
-        //.Requires(() => Configuration.Equals(Configuration.Release))
+        .Requires(() => NugetApiKey)
+        .Requires(() => NugetFeed)
+        .Requires(() => GitHasCleanWorkingCopy())
+        .Requires(() => Configuration.Equals(Configuration.Release))
         .Requires(() => GitRepository.Branch.EqualsOrdinalIgnoreCase("master"))
         .Executes(() =>
         {
