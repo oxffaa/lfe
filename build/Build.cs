@@ -121,7 +121,6 @@ class Build : NukeBuild
         .Requires(() => NugetFeed)
         .Requires(() => GitHasCleanWorkingCopy())
         .Requires(() => Configuration.Equals(Configuration.Release))
-        .Requires(() => GitRepository.Branch.EqualsOrdinalIgnoreCase("master"))
         .Executes(() =>
         {
             DotNetNuGetPush(_ => _
