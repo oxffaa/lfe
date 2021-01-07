@@ -22,9 +22,7 @@ jobs:
         dotnet-version: 5.0.100
 
     - name: Setup GitVersions 
-      uses: actions/setup-gitversion@v1.0.0
-      with:
-        gitversion-version: 5.1.1
+      run: dotnet tool install --global GitVersion.Tool
     
     - name: Run nuke for publishing
       run: ./build.sh Publish --feed https://www.myget.org/F/oxffaa/api/v3/index.json --apikey ${{ secrets.MYGETAPIKEY }}
