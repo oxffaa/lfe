@@ -18,7 +18,9 @@ namespace LFE.Tests
             var workers =
                 Enumerable
                     .Repeat(0, 4)
+#pragma warning disable 1998
                     .Select(async (_) =>
+#pragma warning restore 1998
                     {
                         int result = 0;
                         

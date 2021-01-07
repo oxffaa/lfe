@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{B4B11B4F-E00
 	ProjectSection(SolutionItems) = preProject
 		doc\License_MIT_ENG.txt = doc\License_MIT_ENG.txt
 		doc\License_MIT_RUS.txt = doc\License_MIT_RUS.txt
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LFE", "src\LFE\LFE.csproj", "{B42F5236-447A-4D6D-AB3A-705C4B55EA15}"
