@@ -12,6 +12,7 @@ using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.Git.GitTasks;
+using static Nuke.Common.Tools.GitVersion.GitVersionTasks;
 
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
@@ -22,6 +23,7 @@ class Build : NukeBuild
     ///   - JetBrains Rider            https://nuke.build/rider
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
+
 
     public static int Main () => Execute<Build>(x => x.Compile);
 
@@ -36,7 +38,7 @@ class Build : NukeBuild
 
     [Required] [Solution] readonly Solution Solution;
     [Required] [GitRepository] readonly GitRepository GitRepository;
-    [Required] [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
+    GitVersion CurrentVersion;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath TestsDirectory => RootDirectory / "test";
@@ -59,16 +61,26 @@ class Build : NukeBuild
                 .SetProjectFile(Solution));
         });
 
+    Target CalculateVersion => t => t
+        .Executes(() =>
+        {
+            (CurrentVersion, _) = GitVersion(c => c
+                .SetExecutable("dotnet-gitversion")
+                .SetNoFetch(true)
+            );
+        });
+
     Target Compile => _ => _
+        .DependsOn(CalculateVersion)
         .DependsOn(Restore)
         .Executes(() =>
         {
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
-                .SetAssemblyVersion(GitVersion.AssemblySemVer)
-                .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetAssemblyVersion(CurrentVersion.AssemblySemVer)
+                .SetFileVersion(CurrentVersion.AssemblySemFileVer)
+                .SetInformationalVersion(CurrentVersion.InformationalVersion)
                 .EnableNoRestore()
                 .SetNoRestore(true)
             );
@@ -108,7 +120,7 @@ class Build : NukeBuild
                 .SetNoBuild(true)
                 .SetConfiguration(Configuration)
                 .SetOutputDirectory(ArtifactsDirectory)
-                .SetVersion(GitVersion.NuGetVersionV2)
+                .SetVersion(CurrentVersion.NuGetVersionV2)
             );
         });
 

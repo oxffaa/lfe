@@ -23,6 +23,9 @@ jobs:
 
     - name: Setup GitVersions 
       run: dotnet tool install --global GitVersion.Tool
+
+    - name: Test GitVersions setup
+      run: dotnet-gitversion
     
     - name: Run nuke for publishing
       run: ./build.sh Publish --feed https://www.myget.org/F/oxffaa/api/v3/index.json --apikey ${{ secrets.MYGETAPIKEY }}
