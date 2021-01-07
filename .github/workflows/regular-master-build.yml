@@ -15,10 +15,16 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.100
+
+    - name: Setup GitVersions 
+      uses: actions/setup-gitversion@v1.0.0
+      with:
+        gitversion-version: 5.1.1
     
     - name: Run nuke for publishing
       run: ./build.sh Publish --feed https://www.myget.org/F/oxffaa/api/v3/index.json --apikey ${{ secrets.MYGETAPIKEY }}
