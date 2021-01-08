@@ -14,4 +14,10 @@
     <PackageDownload Include="GitVersion.Tool" Version="[5.6.1]" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="..\.github\workflows\publish-on-push-tag.yml">
+      <Link>ci\publish-on-push-tag.yml</Link>
+    </None>
+  </ItemGroup>
+
 </Project>
