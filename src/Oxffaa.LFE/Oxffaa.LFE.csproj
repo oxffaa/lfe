@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Title>LFE</Title>
+        <Title>Oxffaa.LFE</Title>
         <Authors>oxffaa (akulyakov.artem@gmail.com)</Authors>
-        <Description>LFE(lock-free extensions) is a library that contains two thread-safe and same time lock-free collections for patterns "multiple producers one consumer" and "one producer multiple consumers".</Description>
+        <Description>LFE(lock-free extensions) is a library that contains two thread-safe and same time lock-free collections for patterns "multiple producers one consumer" and handling some data parallel.</Description>
         <Copyright>oxffaa (akulyakov.artem@gmail.com)</Copyright>
         <PackageProjectUrl>https://github.com/oxffaa/lfe</PackageProjectUrl>
         <PackageLicense>https://github.com/oxffaa/lfe/blob/master/LICENSE</PackageLicense>
