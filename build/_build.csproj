@@ -24,6 +24,9 @@
     <None Update="..\.github\workflows\master-build-and-test.yml">
       <Link>ci\master-build-and-test.yml</Link>
     </None>
+    <None Update="..\.github\workflows\publish-on-release.yml">
+      <Link>ci\publish-on-release.yml</Link>
+    </None>
   </ItemGroup>
 
 </Project>

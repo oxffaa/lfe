@@ -116,11 +116,10 @@ class Build : NukeBuild
     Target Publish => _ => _
         .DependsOn(Pack)
         .Consumes(Pack)
-        .OnlyWhenStatic(() => GitHasCleanWorkingCopy())
-        .OnlyWhenDynamic(() => GitCurrentBranch() == "master")
         .Requires(() => NugetApiKey)
         .Requires(() => NugetFeed)
         .Requires(() => Configuration.Equals(Configuration.Release))
+        .Requires(() => GitHasCleanWorkingCopy())
         .Executes(() =>
         {
             DotNetNuGetPush(_ => _
