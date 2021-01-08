@@ -9,10 +9,10 @@ using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities.Collections;
+
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.Git.GitTasks;
-using static Nuke.Common.Tools.GitVersion.GitVersionTasks;
 
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
@@ -38,7 +38,7 @@ class Build : NukeBuild
 
     [Required] [Solution] readonly Solution Solution;
     [Required] [GitRepository] readonly GitRepository GitRepository;
-    GitVersion CurrentVersion;
+    [Required] [GitVersion(NoFetch = true, Framework = "net5.0")] GitVersion CurrentVersion;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath TestsDirectory => RootDirectory / "test";
@@ -61,17 +61,7 @@ class Build : NukeBuild
                 .SetProjectFile(Solution));
         });
 
-    Target CalculateVersion => t => t
-        .Executes(() =>
-        {
-            (CurrentVersion, _) = GitVersion(c => c
-                .SetExecutable("dotnet-gitversion")
-                .SetNoFetch(true)
-            );
-        });
-
     Target Compile => _ => _
-        .DependsOn(CalculateVersion)
         .DependsOn(Restore)
         .Executes(() =>
         {
@@ -140,5 +130,5 @@ class Build : NukeBuild
                     .SetTargetPath(v)
                 )
             );
-        });
-}
+        });    
+} 
