@@ -37,7 +37,6 @@ class Build : NukeBuild
     readonly string NugetApiKey;
 
     [Required] [Solution] readonly Solution Solution;
-    [Required] [GitRepository] readonly GitRepository GitRepository;
     [Required] [GitVersion(NoFetch = true, Framework = "net5.0")] GitVersion CurrentVersion;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
@@ -117,9 +116,10 @@ class Build : NukeBuild
     Target Publish => _ => _
         .DependsOn(Pack)
         .Consumes(Pack)
+        .OnlyWhenStatic(() => GitHasCleanWorkingCopy())
+        .OnlyWhenDynamic(() => GitCurrentBranch() == "master")
         .Requires(() => NugetApiKey)
         .Requires(() => NugetFeed)
-        .Requires(() => GitHasCleanWorkingCopy())
         .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(() =>
         {

@@ -18,6 +18,9 @@
     <None Update="..\.github\workflows\publish-on-push-tag.yml">
       <Link>ci\publish-on-push-tag.yml</Link>
     </None>
+    <None Update="..\.github\workflows\pull-request-build-and-test.yml">
+      <Link>ci\pull-request-build-and-test.yml</Link>
+    </None>
   </ItemGroup>
 
 </Project>
