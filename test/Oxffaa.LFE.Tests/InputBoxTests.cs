@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Concurrent.System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace LFE.Tests
+namespace Oxffaa.LFE.Tests
 {
     public class InputBoxTests
     {

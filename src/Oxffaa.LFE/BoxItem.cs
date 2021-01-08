@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace System.Collections.Concurrent
+﻿namespace Oxffaa.LFE
 {
     internal sealed class BoxItem<T>
     {

@@ -1,9 +1,8 @@
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace LFE.Tests
+namespace Oxffaa.LFE.Tests
 {
     public class OutputBoxTests
     {

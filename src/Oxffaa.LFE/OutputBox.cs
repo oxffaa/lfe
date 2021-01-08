@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace System.Collections.Concurrent
+namespace Oxffaa.LFE
 {
     public class OutputBox<T>
     {
@@ -10,18 +11,14 @@ namespace System.Collections.Concurrent
         public OutputBox(IEnumerable<T> source)
         {
             BoxItem<T> current = null;
+            
             foreach (var item in source)
-            {
                 current = new BoxItem<T>(item, current);
-            }
 
             _root = current;
         }
 
-        public bool HasItems
-        {
-            get { return _root != null; }
-        }
+        public bool HasItems => _root != null;
 
         public T Take()
         {
@@ -43,12 +40,13 @@ namespace System.Collections.Concurrent
             if (currentRoot == null)
                 throw new InvalidOperationException("Box is empty.");
 
-            var result = currentRoot ==
-                         Interlocked.CompareExchange(ref _root,
-                             currentRoot.Next,
-                             currentRoot);
+            var result = currentRoot == Interlocked.CompareExchange(
+                ref _root,
+                currentRoot.Next,
+                currentRoot
+            );
 
-            item = result ? currentRoot.Value : default(T);
+            item = result ? currentRoot.Value : default;
 
             return result;
         }

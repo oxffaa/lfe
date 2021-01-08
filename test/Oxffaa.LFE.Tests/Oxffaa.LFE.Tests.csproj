@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\LFE\LFE.csproj" />
+      <ProjectReference Include="..\..\src\Oxffaa.LFE\Oxffaa.LFE.csproj" />
     </ItemGroup>
 
 </Project>
