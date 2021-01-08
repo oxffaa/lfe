@@ -1,4 +1,4 @@
-name: Regular master build and test
+name: Pull request build and test
 
 on:
   pull_request:

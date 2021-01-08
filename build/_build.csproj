@@ -21,6 +21,9 @@
     <None Update="..\.github\workflows\pull-request-build-and-test.yml">
       <Link>ci\pull-request-build-and-test.yml</Link>
     </None>
+    <None Update="..\.github\workflows\master-build-and-test.yml">
+      <Link>ci\master-build-and-test.yml</Link>
+    </None>
   </ItemGroup>
 
 </Project>

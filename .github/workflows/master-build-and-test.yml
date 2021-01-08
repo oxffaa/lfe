@@ -1,4 +1,4 @@
-name: Regular master build and test
+name: Master build, test and publish test coverage
 
 on:
   push:
